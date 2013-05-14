@@ -1,10 +1,11 @@
 (setq inhibit-startup-message t)
 (menu-bar-mode 0)
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
 
 (when window-system
   (tooltip-mode 0)
+  (tool-bar-mode 0)
+  (scroll-bar-mode 0)
+  (fringe-mode 0)
   (blink-cursor-mode 0))
 
 (setq-default visible-bell t
@@ -36,10 +37,8 @@
       show-paren-style 'expression)
 
 (global-subword-mode)
-(fringe-mode 0)
 
 (ido-mode 1)
-(ido-ubiquitous-mode 1)
 (setq-default ido-enable-prefix nil
 	      ido-enable-flex-matching t
 	      ido-auto-merge-work-directories-length -1
