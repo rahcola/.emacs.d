@@ -17,7 +17,7 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
-(add-to-list 'load-path "/home/jani/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d")
 (require 'rahcola-editor)
 (require 'rahcola-key-binds)
 
