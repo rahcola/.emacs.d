@@ -52,6 +52,8 @@
 
 (defalias 'yes-or-no 'y-or-n-p)
 
+(setq-default tramp-default-method "ssh")
+
 (load-theme 'solarized-dark t)
 (set-face-foreground 'show-paren-match nil nil)
 (set-face-bold-p 'show-paren-match nil nil)
