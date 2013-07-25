@@ -7,5 +7,3 @@
     (backward-kill-word arg)))
 
 (global-set-key (kbd "C-w") 'kill-region-or-backward-kill-word)
-
-(provide 'rahcola-key-binds)

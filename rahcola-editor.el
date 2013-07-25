@@ -94,5 +94,3 @@
                 (:propertize "%m"
                              face font-lock-type-face)
                 ")"))
-
-(provide 'rahcola-editor)

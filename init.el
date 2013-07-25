@@ -17,8 +17,12 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
+(load "auctex.el" nil t t)
+(load "preview-latex.el" nil t t)
+
 (add-to-list 'load-path "~/.emacs.d")
-(require 'rahcola-editor)
-(require 'rahcola-key-binds)
+(add-hook 'after-init-hook (lambda () (load "rahcola-editor.el")))
+(add-hook 'after-init-hook (lambda () (load "rahcola-key-binds.el")))
+(add-hook 'after-init-hook (lambda () (load "rahcola-tex.el")))
 
 (server-start)
