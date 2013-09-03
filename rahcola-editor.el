@@ -66,12 +66,17 @@
 (setq-default nrepl-tab-command 'indent-for-tab-command)
 
 (setq-default mode-line-format
-              '("("
+              '(" "
+                (:eval
+                 (propertize "%3l,%2c"
+                             'face 'font-lock-type-face
+                             'help-echo (format-mode-line "size: %IB")))
+                " "
                 (:eval
                  (propertize "%b"
                              'face 'font-lock-keyword-face
                              'help-echo (buffer-file-name)))
-                ")--("
+                " ("
                 (:eval
                  (cond (buffer-read-only
                         (propertize "R"
@@ -85,12 +90,6 @@
                         (propertize " "
                                     'face 'font-lock-type-face
                                     'help-echo "not modified"))))
-                ")--("
-                (:eval
-                 (propertize "%3l,%2c"
-                             'face 'font-lock-type-face
-                             'help-echo (format-mode-line "size: %IB")))
-                ")--("
+                ") "
                 (:propertize "%m"
-                             face font-lock-type-face)
-                ")"))
+                             face font-lock-type-face)))

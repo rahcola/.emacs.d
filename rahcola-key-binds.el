@@ -7,3 +7,4 @@
     (backward-kill-word arg)))
 
 (global-set-key (kbd "C-w") 'kill-region-or-backward-kill-word)
+(global-set-key (kbd "M-/") 'hippie-expand)

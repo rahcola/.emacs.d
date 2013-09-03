@@ -19,6 +19,7 @@
 
 (load "auctex.el" nil t t)
 (load "preview-latex.el" nil t t)
+(add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
 
 (add-to-list 'load-path "~/.emacs.d")
 (add-hook 'after-init-hook (lambda () (load "rahcola-editor.el")))
