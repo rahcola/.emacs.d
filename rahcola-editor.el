@@ -48,10 +48,12 @@
 
 (defalias 'yes-or-no 'y-or-n-p)
 
+(load-theme 'zenburn t)
 (set-face-foreground 'show-paren-match nil nil)
+(set-face-background 'show-paren-match "#383838" nil)
 (set-face-bold-p 'show-paren-match nil nil)
-(set-face-inverse-video-p 'mode-line nil nil)
-(set-face-inverse-video-p 'mode-line-inactive nil nil)
+;;(set-face-inverse-video-p 'mode-line nil nil)
+;;(set-face-inverse-video-p 'mode-line-inactive nil nil)
 
 (setq-default mode-line-format
               '(" "

@@ -6,7 +6,8 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(defvar my-packages '(clojure-mode)
+(defvar my-packages '(clojure-mode
+                      zenburn-theme)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
