@@ -5,6 +5,8 @@
 (when (fboundp 'scroll-bar-mode)
     (scroll-bar-mode -1))
 
+(fringe-mode -1)
+
 (setq-default visible-bell t
 	      echo-keystrokes 0.1
 	      redisplay-dont-pause t
