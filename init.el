@@ -6,7 +6,12 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(defvar my-packages '(clojure-mode
+(defvar my-packages '(magit
+                      paredit
+                      clojure-mode
+                      cider
+                      haskell-mode
+                      color-theme-solarized
                       zenburn-theme)
   "A list of packages to ensure are installed at launch.")
 
@@ -14,10 +19,12 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
-(add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
+(add-to-list 'auto-mode-alist '("/tmp/mutt.*" . mail-mode))
 
 (add-to-list 'load-path "~/.emacs.d")
+(add-hook 'after-init-hook (lambda () (load "rahcola-looks.el")))
+(add-hook 'after-init-hook (lambda () (load "rahcola-modeline.el")))
 (add-hook 'after-init-hook (lambda () (load "rahcola-editor.el")))
 (add-hook 'after-init-hook (lambda () (load "rahcola-key-binds.el")))
-
-(server-start)
+(add-hook 'after-init-hook (lambda () (load "rahcola-clojure.el")))
+(add-hook 'after-init-hook (lambda () (load "rahcola-haskell.el")))
