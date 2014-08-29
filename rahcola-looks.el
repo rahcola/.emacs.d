@@ -16,7 +16,7 @@
               show-paren-style 'parenthesis)
 
 ;(load-theme 'zenburn t)
-(load-theme 'solarized-dark t)
+(load-theme 'base16-default t)
 (set-face-attribute 'show-paren-match nil :background nil)
 
 (set-frame-font "Source Code Pro-12" nil t)
