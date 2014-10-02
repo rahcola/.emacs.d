@@ -9,7 +9,7 @@
 (setq-default mouse-wheel-scroll-amount '(1 ((shift) . 1))
               mouse-wheel-progressive-speed nil)
 
-(setq-default fill-column 72
+(setq-default fill-column 78
               indent-tabs-mode nil
               sentence-end-double-space nil
               require-final-newline t)
