@@ -1,6 +1,8 @@
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("elpy" . "http://jorgenschaefer.github.io/packages/") t)
 (package-initialize)
 
 (when (not package-archive-contents)
@@ -12,6 +14,7 @@
                       cider
                       haskell-mode
                       color-theme-solarized
+                      elpy
                       zenburn-theme)
   "A list of packages to ensure are installed at launch.")
 
@@ -28,3 +31,4 @@
 (add-hook 'after-init-hook (lambda () (load "rahcola-key-binds.el")))
 (add-hook 'after-init-hook (lambda () (load "rahcola-clojure.el")))
 (add-hook 'after-init-hook (lambda () (load "rahcola-haskell.el")))
+(add-hook 'after-init-hook (lambda () (load "rahcola-python.el")))
