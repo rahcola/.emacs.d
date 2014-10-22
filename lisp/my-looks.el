@@ -15,10 +15,7 @@
 (setq-default show-paren-delay 0
               show-paren-style 'parenthesis)
 
-;(load-theme 'zenburn t)
 (load-theme 'base16-default t)
 (set-face-attribute 'show-paren-match nil :background nil)
 (set-face-attribute 'mode-line nil :box nil)
 (set-face-attribute 'mode-line-inactive nil :box nil)
-
-(set-frame-font "Source Code Pro-12" nil t)

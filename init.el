@@ -13,7 +13,6 @@
                       clojure-mode
                       cider
                       haskell-mode
-                      color-theme-solarized
                       elpy
                       zenburn-theme)
   "A list of packages to ensure are installed at launch.")
@@ -24,11 +23,14 @@
 
 (add-to-list 'auto-mode-alist '("/tmp/mutt.*" . mail-mode))
 
-(add-to-list 'load-path "~/.emacs.d")
-(add-hook 'after-init-hook (lambda () (load "rahcola-looks.el")))
-(add-hook 'after-init-hook (lambda () (load "rahcola-modeline.el")))
-(add-hook 'after-init-hook (lambda () (load "rahcola-editor.el")))
-(add-hook 'after-init-hook (lambda () (load "rahcola-key-binds.el")))
-(add-hook 'after-init-hook (lambda () (load "rahcola-clojure.el")))
-(add-hook 'after-init-hook (lambda () (load "rahcola-haskell.el")))
-(add-hook 'after-init-hook (lambda () (load "rahcola-python.el")))
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/lisp")
+(add-hook 'after-init-hook (lambda () (load "my-clojure.el")))
+(add-hook 'after-init-hook (lambda () (load "my-editor.el")))
+(add-hook 'after-init-hook (lambda () (load "my-haskell.el")))
+(add-hook 'after-init-hook (lambda () (load "my-key-binds.el")))
+(add-hook 'after-init-hook (lambda () (load "my-looks.el")))
+(add-hook 'after-init-hook (lambda () (load "my-mail.el")))
+(add-hook 'after-init-hook (lambda () (load "my-modeline.el")))
+(add-hook 'after-init-hook (lambda () (load "my-python.el")))
+(add-hook 'after-init-hook (lambda () (load (concat system-name ".el") t)))
