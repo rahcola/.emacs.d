@@ -1,1 +1,1 @@
-(set-frame-font "Ubuntu Mono-14" nil t)
+(set-frame-font "DejaVu Sans Mono-12" nil t)
