@@ -1,5 +1,3 @@
-(require 'paredit)
-
 ;; https://github.com/overtone/emacs-live/blob/master/packs/dev/clojure-pack/config/paredit-conf.el
 (defun live-paredit-forward ()
   "Feels more natural to move to the beginning of the next item
@@ -17,6 +15,8 @@
         (backward-sexp))
     (paredit-forward)))
 
-(define-key paredit-mode-map (kbd "C-M-f") 'live-paredit-forward)
+(eval-after-load 'paredit
+  '(progn
+     (define-key paredit-mode-map (kbd "C-M-f") 'live-paredit-forward)))
 
 (provide 'setup-paredit)

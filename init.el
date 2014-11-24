@@ -18,8 +18,7 @@
                       cider
                       haskell-mode
                       elpy
-                      flymake
-                      zenburn-theme)
+                      flymake)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
@@ -28,20 +27,13 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
-(require 'setup-editor)
+(require 'setup-paredit)
+(require 'setup-clojure-mode)
+(require 'setup-python)
+(require 'setup-haskell-mode)
 
-(eval-after-load 'paredit '(require 'setup-paredit))
-
-(eval-after-load 'clojure-mode '(require 'setup-clojure-mode))
-(add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
-
-(eval-after-load 'python '(require 'setup-python))
-(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-
-(add-hook 'after-init-hook (lambda () (load "my-haskell.el")))
-(add-hook 'after-init-hook (lambda () (load "my-key-binds.el")))
-(add-hook 'after-init-hook (lambda () (load "my-mail.el")))
-(add-hook 'after-init-hook (lambda () (load "my-modeline.el")))
-(add-hook 'after-init-hook (lambda () (load (concat system-name ".el") t)))
+(require 'editor-settings)
+(require 'key-bindings)
+(require 'host-settings system-name t)
 
 (add-hook 'after-init-hook (lambda () (server-start)))

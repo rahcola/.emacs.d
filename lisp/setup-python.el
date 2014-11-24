@@ -1,7 +1,9 @@
-(require 'python)
-(require 'elpy)
+(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 
-(setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
+(eval-after-load 'elpy
+  '(progn
+     (setq-default elpy-modules
+                   (delq 'elpy-module-highlight-indentation elpy-modules))))
 (add-hook 'python-mode-hook 'elpy-mode)
 
 (provide 'setup-python)
