@@ -4,6 +4,8 @@
 
 (require 'package)
 (add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("elpy" . "http://jorgenschaefer.github.io/packages/") t)
@@ -18,7 +20,9 @@
                       cider
                       haskell-mode
                       elpy
-                      flymake)
+                      flymake
+                      zenburn-theme
+                      color-theme-sanityinc-tomorrow)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
