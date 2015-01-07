@@ -35,6 +35,7 @@
 (require 'setup-clojure-mode)
 (require 'setup-python)
 (require 'setup-haskell-mode)
+(require 'setup-javascript-mode)
 
 (require 'editor-settings)
 (require 'key-bindings)
