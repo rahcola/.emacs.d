@@ -22,7 +22,8 @@
                       elpy
                       flymake
                       zenburn-theme
-                      color-theme-sanityinc-tomorrow)
+                      color-theme-sanityinc-tomorrow
+                      markdown-mode)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
