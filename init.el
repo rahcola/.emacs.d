@@ -19,11 +19,13 @@
                       clojure-mode
                       cider
                       haskell-mode
+                      rust-mode
                       elpy
                       flymake
                       zenburn-theme
                       color-theme-sanityinc-tomorrow
-                      markdown-mode)
+                      markdown-mode
+                      scala-mode2)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
