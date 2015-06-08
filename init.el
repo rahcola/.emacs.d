@@ -22,10 +22,10 @@
                       rust-mode
                       elpy
                       flymake
-                      zenburn-theme
                       color-theme-sanityinc-tomorrow
                       markdown-mode
-                      scala-mode2)
+                      scala-mode2
+                      elixir-mode)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
