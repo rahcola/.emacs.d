@@ -28,7 +28,7 @@
 
 (add-to-list 'custom-theme-load-path (concat user-emacs-directory
                                              "lisp"))
-(load-theme 'sanityinc-tomorrow-day t)
+(load-theme 'base16-tomorrow-night t)
 (set-face-attribute 'mode-line nil :box nil)
 (set-face-attribute 'mode-line-inactive nil :box nil)
 

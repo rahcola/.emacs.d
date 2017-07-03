@@ -22,6 +22,7 @@
                       rust-mode
                       elpy
                       flymake
+                      base16-theme
                       color-theme-sanityinc-tomorrow
                       markdown-mode
                       scala-mode2
