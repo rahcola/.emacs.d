@@ -81,13 +81,11 @@
 
 (use-package swiper
   :ensure t
-  :demand t
   :after (ivy)
   :bind (("C-s" . swiper)))
 
 (use-package counsel
   :ensure t
-  :demand t
   :diminish
   :after (ivy swiper)
   :bind (("C-x C-f" . counsel-find-file)
@@ -116,6 +114,9 @@
   (load-theme 'zenburn t)
   (set-face-attribute 'mode-line nil :box nil)
   (set-face-attribute 'mode-line-inactive nil :box nil))
+
+(use-package hippie-exp
+  :bind (("M-/" . hippie-expand)))
 
 (use-package whitespace
   :commands (whitespace-mode)
