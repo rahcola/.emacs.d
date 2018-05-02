@@ -150,7 +150,8 @@
          ("\\.cljc$" . clojurec-mode)
          ("\\.cljs$" . clojurescript-mode))
   :config
-  (defun my-clojure-mode-hook ()
+  (progn
+    (setq clojure-align-forms-automatically 1)
     (put-clojure-indent 'reg-sub 0)
     (put-clojure-indent 're-frame/reg-sub 0)
     (put-clojure-indent 'reg-event-db 0)
@@ -164,9 +165,13 @@
     (put-clojure-indent 'it 1)
     (put-clojure-indent 'around 1)
     (put-clojure-indent 'api/context 2)
-    (whitespace-mode)
-    (turn-on-smartparens-strict-mode))
-  (add-hook 'clojure-mode-hook #'my-emacs-lisp-mode-hook))
+    (put-clojure-indent 'api/GET 2)
+    (defun my-clojure-mode-hook ()
+      (whitespace-mode)
+      (turn-on-smartparens-strict-mode))
+    (add-hook 'clojure-mode-hook #'my-emacs-lisp-mode-hook)
+    (add-hook 'clojurec-mode-hook #'my-emacs-lisp-mode-hook)
+    (add-hook 'clojurescript-mode-hook #'my-emacs-lisp-mode-hook)))
 
 (use-package cider
   :ensure t
