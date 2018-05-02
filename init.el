@@ -137,6 +137,17 @@
               ("C-<right>" . sp-forward-slurp-sexp)
               ("C-<left>" . sp-forward-barf-sexp)))
 
+(use-package git-commit
+  :ensure t)
+
+(use-package magit
+  :after (git-commit)
+  :ensure t
+  :config
+  (defun my-magit-mode-hook ()
+    (whitespace-mode))
+  (add-hook 'magit-mode-hook #'my-magit-mode-hook))
+
 (use-package elisp-mode
   :config
   (defun my-emacs-lisp-mode-hook ()
@@ -192,7 +203,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (cider zenburn-theme use-package smartparens diminish counsel-projectile clojure-mode))))
+    (git-commit magit cider zenburn-theme use-package smartparens diminish counsel-projectile clojure-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
