@@ -1,25 +1,25 @@
-(setq-default inhibit-startup-message t
-              fill-column 78
-              indent-tabs-mode nil
-              font-lock-maximum-decoration t
-              echo-keystrokes 0.1
-              redisplay-dont-pause t
-              mouse-wheel-scroll-amount '(1 ((shift) . 1))
-              mouse-wheel-progressive-speed nil
-              x-select-enable-primary t
-              x-select-enable-clipboard t
-              save-interprogram-paste-before-kill t
-              mouse-yank-at-point t
-              scroll-conservatively 101
-              transient-mark-mode t
-              sentence-end-double-space nil
-              require-final-newline t
-              backup-directory-alist `(("." . ,(concat user-emacs-directory
-                                                       "backups")))
-              backup-by-copying t
+(setq-default backup-by-copying t
+              backup-directory-alist '((".*" . "~/.cache/emacs/backup"))
               delete-old-versions t
+              echo-keystrokes 0.1
+              fill-column 78
+              font-lock-maximum-decoration t
+              indent-tabs-mode nil
+              kill-whole-line nil
+              mouse-wheel-progressive-speed nil
+              mouse-wheel-scroll-amount '(1 ((shift) . 1))
+              mouse-yank-at-point t
+              redisplay-dont-pause t
+              require-final-newline t
+              save-interprogram-paste-before-kill t
+              save-place-file "~/.cache/emacs/places"
+              scroll-conservatively 101
+              sentence-end-double-space nil
+              transient-mark-mode t
               version-control t
-              save-place-file (concat user-emacs-directory "places"))
+              x-select-enable-clipboard t
+              x-select-enable-primary t
+              inhibit-startup-message t)
 
 (setq-default hippie-expand-try-functions-list
               '(try-expand-dabbrev
@@ -52,55 +52,60 @@
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives
-             '("elpy" . "http://jorgenschaefer.github.io/packages/") t)
-(package-initialize)
+(defun kill-region-or-backward-kill-word (&optional arg region)
+  "'kill-region' if the region is active, otherwise 'backward-kill-word'"
+  (interactive
+   (list (prefix-numeric-value current-prefix-arg) (use-region-p)))
+  (if region
+      (kill-region (region-beginning) (region-end))
+    (backward-kill-word arg)))
 
-(when (not package-archive-contents)
-  (package-refresh-contents))
+(global-set-key (kbd "C-w") 'kill-region-or-backward-kill-wor)
 
-(dolist (p '(use-package diminish))
-  (when (not (package-installed-p p))
-    (package-install p)))
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
 
 (use-package server
   :hook (after-init . server-start))
 
+(use-package diminish
+  :ensure t
+  :demand t)
+
 (use-package ivy
+  :diminish
   :ensure t
   :demand t
-  :diminish
   :bind (("C-x b" . ivy-switch-buffer))
   :config
-  (ivy-mode))
+  (ivy-mode 1))
 
 (use-package swiper
+  :after ivy
   :ensure t
-  :after (ivy)
   :bind (("C-s" . swiper)))
 
 (use-package counsel
-  :ensure t
+  :after ivy
   :diminish
-  :after (ivy swiper)
+  :ensure t
+  :demand t
   :bind (("C-x C-f" . counsel-find-file)
          ("M-x" . counsel-M-x)))
 
 (use-package projectile
+  :defer 5
   :ensure t
+  :bind-keymap ("C-c p" . projectile-command-map)
   :config
   (projectile-global-mode))
 
 (use-package counsel-projectile
+  :after (counsel projectile)
   :ensure t
-  :after (projectile counsel)
   :config
-  (counsel-projectile-mode))
+  (counsel-projectile-mode 1))
 
 (use-package paren
   :config
@@ -111,9 +116,7 @@
 (use-package zenburn-theme
   :ensure t
   :config
-  (load-theme 'zenburn t)
-  (set-face-attribute 'mode-line nil :box nil)
-  (set-face-attribute 'mode-line-inactive nil :box nil))
+  (load-theme 'zenburn t))
 
 (use-package hippie-exp
   :bind (("M-/" . hippie-expand)))
@@ -137,16 +140,16 @@
               ("C-<right>" . sp-forward-slurp-sexp)
               ("C-<left>" . sp-forward-barf-sexp)))
 
-(use-package git-commit
-  :ensure t)
-
 (use-package magit
-  :after (git-commit)
   :ensure t
   :config
-  (defun my-magit-mode-hook ()
-    (whitespace-mode))
-  (add-hook 'magit-mode-hook #'my-magit-mode-hook))
+  (use-package magit-commit
+    :config
+    (use-package git-commit))
+
+  (use-package magit-files
+    :config
+    (global-magit-file-mode)))
 
 (use-package elisp-mode
   :config
@@ -163,6 +166,7 @@
   :config
   (progn
     (setq clojure-align-forms-automatically 1)
+    (put-clojure-indent 'fn-traced 1)
     (put-clojure-indent 'reg-sub 0)
     (put-clojure-indent 're-frame/reg-sub 0)
     (put-clojure-indent 'reg-event-db 0)
@@ -194,22 +198,21 @@
   :ensure t
   :commands (cider-connect))
 
-(add-to-list 'load-path "~/.emacs.d/lisp")
+(use-package yaml-mode
+  :ensure t
+  :mode "\\.ya?ml\\'")
 
-(require 'setup-paredit)
-(require 'setup-python)
-(require 'setup-haskell-mode)
-(require 'setup-javascript-mode)
-
-(require 'key-bindings)
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (git-commit magit cider zenburn-theme use-package smartparens diminish counsel-projectile clojure-mode))))
+   '(elpy zenburn-theme yaml-mode use-package solarized-theme smartparens rjsx-mode magit-popup magit graphql ghub diminish counsel-projectile color-theme-sanityinc-tomorrow cider base16-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
