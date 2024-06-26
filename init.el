@@ -1,4 +1,5 @@
-(setq-default backup-by-copying t
+(setq-default auto-save-file-name-transforms `((".*" "~/.cache/emacs/auto-save/" t))
+              backup-by-copying t
               backup-directory-alist '((".*" . "~/.cache/emacs/backup"))
               delete-old-versions t
               echo-keystrokes 0.1
@@ -41,7 +42,7 @@
                     " │ "
                     mode-line-modes))
 
-(set-frame-font "Source Code Pro-10" nil t)
+(set-frame-font "Source Code Pro-12" nil t)
 
 (when window-system
   (tooltip-mode 0)
@@ -57,14 +58,15 @@
   (interactive
    (list (prefix-numeric-value current-prefix-arg) (use-region-p)))
   (if region
-      (kill-region (region-beginning) (region-end))
+    (kill-region (region-beginning) (region-end))
     (backward-kill-word arg)))
 
-(global-set-key (kbd "C-w") 'kill-region-or-backward-kill-wor)
+(global-set-key (kbd "C-w") 'kill-region-or-backward-kill-word)
 
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
+
+(require 'quelpa-use-package)
 
 (use-package server
   :hook (after-init . server-start))
@@ -99,7 +101,9 @@
   :ensure t
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
-  (projectile-global-mode))
+  (setq projectile-globally-ignored-directories
+        '(".git" ".idea" "node_modules"))
+  (projectile-mode))
 
 (use-package counsel-projectile
   :after (counsel projectile)
@@ -113,10 +117,15 @@
   (setq-default show-paren-delay 0
                 show-paren-style 'parenthesis))
 
-(use-package zenburn-theme
+;; (use-package zenburn-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'zenburn t))
+
+(use-package solarized-theme
   :ensure t
   :config
-  (load-theme 'zenburn t))
+  (load-theme 'solarized-light t))
 
 (use-package hippie-exp
   :bind (("M-/" . hippie-expand)))
@@ -206,16 +215,79 @@
   :ensure t
   :init
   (elpy-enable))
+
+(use-package scala-mode
+  :ensure t
+  :mode "\\.scala$"
+  :interpreter ("scala" . scala-mode))
+
+(use-package lsp-mode
+  :ensure t
+  :hook
+  (scala-mode . lsp)
+  (lsp-mode . lsp-lens-mode)
+  :config (setq lsp-enable-snippet nil))
+
+(use-package lsp-metals
+  :ensure t
+  :config (setq lsp-metals-treeview-show-when-views-received t))
+
+(use-package lsp-ui
+  :ensure t)
+
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode)
+  :config
+  (defun my/use-eslint-from-node-modules ()
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (eslint (and root
+                        (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                          root))))
+      (when (and eslint (file-executable-p eslint))
+        (setq-local flycheck-javascript-eslint-executable eslint))))
+  (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
+
+(use-package js-mode
+  :mode "\\.[m]?jsx?$"
+  :config
+  (setq-default js-indent-level 2))
+
+(use-package typescript-mode
+  :ensure t
+  :mode "\\.tsx?$"
+  :config
+  (setq-default typescript-indent-level 2))
+
+(use-package add-node-modules-path
+  :after (js-mode typescript-mode)
+  :ensure t
+  :hook ((js-mode typescript-mode) . add-node-modules-path))
+
+(use-package prettier-js
+  :after (js-mode typescript-mode)
+  :ensure t
+  :hook ((js-mode typescript-mode) . prettier-js-mode))
+
+(use-package copilot
+  :quelpa (copilot :fetcher github
+                   :repo "copilot-emacs/copilot.el"
+                   :branch "main"
+                   :files ("*.el")))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(elpy zenburn-theme yaml-mode use-package solarized-theme smartparens rjsx-mode magit-popup magit graphql ghub diminish counsel-projectile color-theme-sanityinc-tomorrow cider base16-theme)))
+   '(copilot editorconfig quelpa-use-package quelpa zenburn-theme yaml-mode use-package typescript-mode solarized-theme smartparens scala-mode prettier-js magit-popup magit lsp-ui lsp-metals js2-mode graphql ghub flycheck elpy diminish counsel-projectile cider add-node-modules-path)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
